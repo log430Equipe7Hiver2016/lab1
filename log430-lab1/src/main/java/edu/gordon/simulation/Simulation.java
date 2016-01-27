@@ -8,11 +8,10 @@
 package edu.gordon.simulation;
 
 import edu.gordon.ATMDisplay.SimDisplay;
-import edu.gordon.atm.physical.ATM;
+import edu.gordon.atm.ATM;
 import edu.gordon.banking.Balances;
-import edu.gordon.banking.Card;
 import edu.gordon.banking.Message;
-import edu.gordon.banking.Status;
+import edu.gordon.banking.Money;
 
 /** Simulation of the physical components of the ATM, including its network 
  *  connection to the bank.  An instance is created at startup by either the
@@ -79,7 +78,7 @@ public class Simulation
      *  @return Card object representing information on the card if read
      *          successfully, null if not read successfully
      */
-    public Card readCard()
+    public int readCard()
     {
         // Machine can't be turned off while there is a card in it
         operatorPanel.setEnabled(false);
@@ -146,7 +145,7 @@ public class Simulation
      *
      *  Precondition: amount is <= cash on hand
      */
-    public void dispenseCash(String amount)
+    public void dispenseCash(long amount)
     {
         cashDispenser.animateDispensingCash(amount);
     }
@@ -186,7 +185,9 @@ public class Simulation
      *         by bank
      *  @return status code returned by bank
      */
-    public Status sendMessage(Message message, Balances balances)
+    public String sendMessage(int messageCode, int cardNumber, int pin, 
+                   int serialNumber, int fromAccount, int toAccount, int[] cash,
+                   long total, long available)
     {
         // Simulate time taken to send message over network
         
@@ -197,7 +198,14 @@ public class Simulation
         catch(InterruptedException e)
         { }
         
-        return simulatedBank.handleMessage(message, balances);
+        Message message = new Message(messageCode,cardNumber, pin, 
+                    serialNumber, fromAccount, toAccount, cash);
+        
+        Balances balances = new Balances();
+        
+        balances.setBalances(new Money(0, (int)total), new Money(0, (int)available));
+        
+        return simulatedBank.handleMessage(message, balances).toString();
     }
 
     /** Notify the ATM that the state of the on-off switch has been changed
