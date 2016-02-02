@@ -10,8 +10,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+
 import edu.gordon.atm.ATM;
-import edu.gordon.atm.transaction.Session;
 import edu.gordon.atm.physical.CustomerConsole;
 import edu.gordon.banking.*;
 import edu.gordon.atm.transaction.*;
@@ -41,7 +41,7 @@ public class TestsDeposit {
     @BeforeClass
     public static void setUpClass() {
         
-        TestsDeposit.unAtm = new ATM(42, "Gordon College", "First National Bank of Podunk",
+        TestsDeposit.unAtm = new ATM(42, "Gordon College", "First National Bank of Anus",
                              null /* We're not really talking to a bank! */);
         
         TestsDeposit.uneCarte = new Card(1234567);

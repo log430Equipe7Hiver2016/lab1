@@ -8,7 +8,8 @@
 package edu.gordon.simulation;
 
 import edu.gordon.ATMDisplay.SimDisplay;
-import edu.gordon.atm.ATM;
+//import edu.gordon.atm.ATM;
+import edu.gordon.atm.transaction.ATMService;
 import edu.gordon.banking.Balances;
 import edu.gordon.banking.Message;
 import edu.gordon.banking.Money;
@@ -28,7 +29,7 @@ import edu.gordon.banking.Money;
  */
 public class Simulation
 {
-    public Simulation(ATM atm)
+    public Simulation(ATMService atm)
     {
         this.atm = atm;
         
@@ -185,7 +186,7 @@ public class Simulation
      *         by bank
      *  @return status code returned by bank
      */
-    public String sendMessage(int messageCode, int cardNumber, int pin, 
+    public String[] sendMessage(int messageCode, int cardNumber, int pin, 
                    int serialNumber, int fromAccount, int toAccount, int[] cash,
                    long total, long available)
     {
@@ -205,7 +206,15 @@ public class Simulation
         
         balances.setBalances(new Money(0, (int)total), new Money(0, (int)available));
         
-        return simulatedBank.handleMessage(message, balances).toString();
+        String[] answer = new String[3];
+        
+        answer[0] = simulatedBank.handleMessage(message, balances).toString();
+        
+        answer[1] = balances.getTotal().toStringCents();
+        
+        answer[2] = balances.getAvailable().toStringCents();
+        
+        return answer;
     }
 
     /** Notify the ATM that the state of the on-off switch has been changed
@@ -268,7 +277,7 @@ public class Simulation
     
     /** The ATM object for the ATM being simulated
      */
-    private ATM atm;
+    private ATMService atm;
     
     /** The simulated operator panel
      */
