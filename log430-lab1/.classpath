@@ -22,5 +22,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="F:/Joel/École/ETS/log430/lab1-final/lab1/log430-lab1/guava-18.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

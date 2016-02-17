@@ -1,4 +1,0 @@
-INFO  ca.etsmtl.log430.pubsub.example.SystemInitialize: Logger started.
-DEBUG ca.etsmtl.log430.pubsub.example.SystemInitialize: 
-Event class ca.etsmtl.log430.pubsub.example.SayHelloEvent received in class ca.etsmtl.log430.pubsub.example.SayHelloComponent, published by class ca.etsmtl.log430.pubsub.example.SystemInitialize.
-
