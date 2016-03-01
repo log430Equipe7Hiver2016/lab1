@@ -1,12 +1,18 @@
 package edu.gordon.atm.transaction;
 
 import java.net.InetAddress;
+import com.google.common.eventbus.EventBus;
 
 import edu.gordon.atm.ATM;
+import edu.gordon.event.ATMEvent;
+
+
 
 public class ATMService extends ATM implements Runnable {
 	
 	private Session currentSession;
+	
+	private EventBus eventBus;
 	
     /** The current state of the ATM - one of the possible values listed below
      */
@@ -36,11 +42,11 @@ public class ATMService extends ATM implements Runnable {
      */
     private static final int SERVING_CUSTOMER_STATE = 2;
 
-	public ATMService(int id, String place, String bankName, InetAddress bankAddress) {		
+	public ATMService(int id, String place, String bankName, InetAddress bankAddress, EventBus bus) {		
 		
 		super(id, place, bankName, bankAddress);
 		
-		
+		this.eventBus = bus;
 		
 		// Set up initial conditions when ATM first created        
         state = OFF_STATE;
@@ -49,11 +55,15 @@ public class ATMService extends ATM implements Runnable {
 		
 	}
 	
+	
 	 /** The main program/applet will create a Thread that executes
      *  this code.
      */
     public void run()
     {
+    	
+    	
+    	
         currentSession = null;
         
         while (true)
@@ -62,9 +72,11 @@ public class ATMService extends ATM implements Runnable {
             {
                 case OFF_STATE:
                 
-                    super.getCustomerConsole().display("Not currently available");
-
-                    synchronized(this)
+                    //super.getCustomerConsole().display("Not currently available");
+                	this.eventBus.post(new ATMEvent(this) );
+                	System.out.println("OFF STATE ");
+                	
+                	synchronized(this)
                     {
                         try
                         { 
@@ -84,7 +96,9 @@ public class ATMService extends ATM implements Runnable {
                     
                 case IDLE_STATE:
                 
-                	super.getCustomerConsole().display("Please insert your card");
+                	//super.getCustomerConsole().display("Please insert your card");
+                	this.eventBus.post(new ATMEvent(this) );
+                	
                     cardInserted = false;
                                         
                     synchronized(this)
@@ -125,8 +139,20 @@ public class ATMService extends ATM implements Runnable {
             }
         }
     }
+    
+    
+    
+    public int getState() {
+		return state;
+	}
 
-    public void invalidPIN(int pin){
+
+	public void setState(int state) {
+		this.state = state;
+	}
+
+
+	public void invalidPIN(int pin){
         
         currentSession.setPIN(pin);
         
