@@ -12,12 +12,10 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import edu.gordon.atm.ATM;
-import edu.gordon.atm.physical.CustomerConsole;
 import edu.gordon.banking.*;
 import edu.gordon.atm.transaction.*;
 import edu.gordon.simulation.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.google.common.eventbus.EventBus;
 
 /**
  *
@@ -39,11 +37,14 @@ public class TestsTransfer {
     
     @BeforeClass
     public static void setUpClass() {
+        
+        EventBus eventBus = new EventBus();
+        
         TestsTransfer.unAtm = new ATM(42, "Gordon College", "First National Bank of Anus",
                              null /* We're not really talking to a bank! */);
         
         TestsTransfer.unAtmService = new ATMService(42, "Gordon College", "First National Bank of Anus",
-                             null /* We're not really talking to a bank! */);
+                             null /* We're not really talking to a bank! */, eventBus);
         
         TestsTransfer.uneCarte = new Card(1);
         

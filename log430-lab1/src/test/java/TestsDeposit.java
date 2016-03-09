@@ -18,6 +18,7 @@ import edu.gordon.atm.transaction.*;
 import edu.gordon.simulation.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import com.google.common.eventbus.EventBus;
 
 
 /**
@@ -42,11 +43,13 @@ public class TestsDeposit {
     @BeforeClass
     public static void setUpClass() {
         
+        EventBus eventBus = new EventBus();
+        
         TestsDeposit.unAtm = new ATM(42, "Gordon College", "First National Bank of Anus",
                              null /* We're not really talking to a bank! */);
         
         TestsDeposit.unAtmService = new ATMService(42, "Gordon College", "First National Bank of Anus",
-                             null /* We're not really talking to a bank! */);
+                             null /* We're not really talking to a bank! */, eventBus);
         
         TestsDeposit.uneCarte = new Card(1);
         

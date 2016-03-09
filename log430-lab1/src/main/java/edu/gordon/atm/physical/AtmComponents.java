@@ -5,6 +5,8 @@
  */
 package edu.gordon.atm.physical;
 
+import com.google.common.eventbus.EventBus;
+
 /**
  *
  * @author fred

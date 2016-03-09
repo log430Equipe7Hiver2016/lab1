@@ -15,6 +15,7 @@ import edu.gordon.atm.ATM;
 import edu.gordon.banking.*;
 import edu.gordon.atm.transaction.*;
 import edu.gordon.simulation.*;
+import com.google.common.eventbus.EventBus;
 
 /**
  *
@@ -34,11 +35,14 @@ public class TestsInquiry {
     
     @BeforeClass
     public static void setUpClass() {
+        
+        EventBus eventBus = new EventBus();
+        
         TestsInquiry.unAtm = new ATM(42, "Gordon College", "First National Bank of Anus",
                              null /* We're not really talking to a bank! */);
         
         TestsInquiry.unAtmService = new ATMService(42, "Gordon College", "First National Bank of Anus",
-                             null /* We're not really talking to a bank! */);
+                             null /* We're not really talking to a bank! */, eventBus);
         
         TestsInquiry.uneCarte = new Card(1);
         
